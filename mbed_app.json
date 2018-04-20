@@ -16,10 +16,10 @@
             "value": true
         },
         "wifi-ssid": {
-            "value": "\"your-wifi-ssid\""
+            "value": "\"MCN6911\""
         },
         "wifi-password": {
-            "value": "\"your-wifi-password\""
+            "value": "\"fireandfury\""
         }
     },
     "target_overrides": {
