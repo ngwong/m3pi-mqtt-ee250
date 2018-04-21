@@ -111,8 +111,8 @@ def main():
 
 	tweet = temp_msg + " in " + org + ", " + city + ", " + region + " " + postal + '\n' +											\
 			'\n' 																													\
-			"Outside: T = " + str(out_temp) + " C, H = " + str(out_humidity) + "%, Feels like " + str(round(out_heat_index, 2)) + " C" + '\n'	\
-			"Inside:  T = " + str(in_temp) + " C, H = " + str(in_humidity) + "%, Feels like " + str(round(in_heat_index, 2)) + " C"
+			"Outside:\tT = " + str(out_temp) + " C,\tH = " + str(out_humidity) + "%,\tFeels like " + str(round(out_heat_index, 2)) + " C" + '\n'	\
+			"Inside:\tT = " + str(in_temp) + " C,\tH = " + str(in_humidity) + "%,\tFeels like " + str(round(in_heat_index, 2)) + " C"
 	status = api.update_status(status=tweet)
 
 if __name__ == "__main__":
