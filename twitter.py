@@ -24,7 +24,7 @@ def get_heat_index(c_temp, humidity):
 				(8.5282 * 10**-4 * f_temp * humidity**2 ) - \
 				(1.99 * 10**-6 ** f_temp**2 * humidity**2)
 
-	int final_temp = convert(feel_temp, 'F')
+	final_temp = convert(feel_temp, 'F')
 r
 	# Return the converted value of the actual temperature in Celsius
 	return final_temp
