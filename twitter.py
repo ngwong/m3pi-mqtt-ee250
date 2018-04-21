@@ -19,7 +19,7 @@ def get_heat_index(c_temp, humidity):
 				(10.14333127*humidity) - 					\
 				(0.22475541 * f_temp * humidity) - 			\
 				(6.83783 * 10**-3 * f_temp**2) - 			\
-				(5.481717 * 10**−2 * humidity**2 ) + 		\
+				(5.481717 * 10**-2 * humidity**2 ) + 		\
 				(1.22874 * 10**-3 * f_temp**2 * humidity + 	\
 				(8.5282 * 10**-4 * f_temp * humidity**2 ) - \
 				(1.99 * 10**-6 ** f_temp**2 * humidity**2) 
