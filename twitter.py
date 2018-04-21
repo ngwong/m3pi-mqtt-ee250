@@ -62,22 +62,25 @@ def main():
 	api = get_api(cfg)
 	cur_loc = get_cur_loc()
 	temp_and_humidity = get_temp_and_humidity(float(cur_loc['loc'].split(',')[0]), float(cur_loc['loc'].split(',')[1]))
-	temp = temp_and_humidity[0][1].split(':')[1]
+	temp = temp_and_humidity[0][1]
 	humidity = temp_and_humidity[1]
 	# Compute the heat index based on the current temperature and humidity
-	heat_index = get_heat_index(temp, humidity)
+	heat_index = 0
 	temp_msg = ""
 
-	if (heat_index < 0):
-		temp_msg = 'really cold'
-	elif (heat_index < 10):
-		temp_msg = 'cold'
-	elif (heat_index < 20):
-		temp_msg = 'warm'
-	elif (heat_index < 30):
-		temp_msg = 'hot'
-	else:
-		temp_msg = 'really hot'
+	# heat_index = get_heat_index(temp, humidity)
+	# temp_msg = ""
+
+	# if (heat_index < 0):
+	# 	temp_msg = 'really cold'
+	# elif (heat_index < 10):
+	# 	temp_msg = 'cold'
+	# elif (heat_index < 20):
+	# 	temp_msg = 'warm'
+	# elif (heat_index < 30):
+	# 	temp_msg = 'hot'
+	# else:
+	# 	temp_msg = 'really hot'
 
 	org = " ".join(cur_loc['org'].split()[1:])
 	city = cur_loc['city']
