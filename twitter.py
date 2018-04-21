@@ -1,4 +1,11 @@
+import json
+import requests
 import tweepy
+
+def get_cur_loc():
+	send_url = 'https://ipinfo.io'
+	return requests.get(send_url)
+	#return json.loads(r.text)
 
 def get_api(cfg):
 	auth = tweepy.OAuthHandler(cfg['consumer_key'], cfg['consumer_secret'])
@@ -15,7 +22,7 @@ def main():
 	}
 
 	api = get_api(cfg)
-	tweet = "Hello, world!"
+	tweet = get_cur_loc()
 	status = api.update_status(status=tweet)
 
 if __name__ == "__main__":
