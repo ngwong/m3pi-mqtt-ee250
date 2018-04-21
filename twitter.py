@@ -9,8 +9,23 @@ def convert(temp, unit):
     if unit == "f":
         return (temp - 32)  / 9.0 * 5.0
 
-def get_heat_index(temp, humidity):
-	
+def get_heat_index(c_temp, humidity):
+	# The input temperature is in celsius so convert to fahrenheit
+	f_temp = convert(c_temp, 'C')
+
+	# Calculate what the temperature actually feels like
+	feel_temp = − 42.379 + 									\
+				(2.04901523*f_temp) + 						\
+				(10.14333127*humidity) − 					\
+				(0.22475541 * f_temp * humidity) − 			\
+				(6.83783 * 10**-3 * f_temp**2) − 			\
+				(5.481717 * 10**−2 * humidity**2 ) + 		\
+				(1.22874 * 10**-3 * f_temp**2 * humidity + 	\
+				(8.5282 * 10**-4 * f_temp * humidity**2 ) - \
+				(1.99 * 10**-6 ** f_temp**2 * humidity**2) 
+
+	# Return the converted value of the actual temperature in Celsius
+	return convert(feel_temp, 'F')
 
 # Returns the api object of twitter enabling tweet posting
 def get_api(cfg):
@@ -44,7 +59,7 @@ def main():
 	api = get_api(cfg)
 	cur_loc = get_cur_loc()
 	temp_and_humidity = get_temp_and_humidity(float(cur_loc['loc'].split(',')[0]), float(cur_loc['loc'].split(',')[1]))
-	heat_index = get_heat_index(temp_and_humidity)
+	heat_index = get_heat_index(sum(temp_and_humidity[0])/len(temp_and_humidity[0]), temp_and_humidity[1])
 	temp_msg = "N/A"
 
 	org = " ".join(cur_loc['org'].split()[1:])
