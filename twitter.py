@@ -1,6 +1,7 @@
 import json
 import pyowm
 import requests
+import sys
 import tweepy
 import us
 
@@ -103,8 +104,15 @@ def main():
 	region = us.states.mapping('name', 'abbr')[cur_loc['region']]
 	postal = cur_loc['postal']
 
-	tweet = temp_msg + " in " + org + ", " + city + ", " + region + " " + postal + '\n\n' \
-			"Outside: T = " + str(temp) + " C, H = " + str(humidity) + "%, Feels like " + str(round(heat_index, 2)) + " C"
+	# Store the inside value data
+	in_temp = sys.argv[1]
+	in_humidity = sys.argv[2]
+	in_heat_index = get_heat_index(in_temp, in_humidity)
+
+	tweet = temp_msg + " in " + org + ", " + city + ", " + region + " " + postal + '\n' +											\
+			'\n' 																													\
+			"Outside: T = " + str(temp) + " C, H = " + str(humidity) + "%, Feels like " + str(round(heat_index, 2)) + " C" + '\n'	\
+			"Inside:  T = " + str(in_temp) + " C, H = " + str(humidity) + "%, Feels like " + str(round(in_heat_index, 2)) + " C"
 	status = api.update_status(status=tweet)
 
 if __name__ == "__main__":
