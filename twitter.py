@@ -43,7 +43,7 @@ def get_cur_loc():
 # Extracts the actual and temperature of a place given the coordinates
 def get_temp_and_humidity(lat, lon):
 	owm = pyowm.OWM('13ff05b52e1127ce27d6c06b1b1cc411')
-	w = owm.weather_at_coords(lat, lon)
+	w = owm.weather_at_coords(lat, lon).get_weather()
 	return [w.get_temperature('celsius'), w.get_humidity()]
 
 
