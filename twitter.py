@@ -15,15 +15,29 @@ def get_heat_index(c_temp, humidity):
 	f_temp = convert(c_temp, 'C')
 
 	# Calculate what the temperature actually feels like
-	feel_temp = -42.379 + 									\
-				(2.04901523*f_temp) + 						\
-				(10.14333127*humidity) - 					\
+	feel_temp = float(0)
+
+	if (f_temp >= 80):
+		feel_temp = -42.379 + 								\
+				(2.04901523 * f_temp) + 					\
+				(10.14333127 * humidity) - 					\
 				(0.22475541 * f_temp * humidity) - 			\
 				(6.83783 * 10**-3 * f_temp**2) - 			\
 				(5.481717 * 10**-2 * humidity**2 ) + 		\
-				(1.22874 * 10**-3 * f_temp**2 * humidity) + 	\
+				(1.22874 * 10**-3 * f_temp**2 * humidity) + \
 				(8.5282 * 10**-4 * f_temp * humidity**2 ) - \
 				(1.99 * 10**-6 * f_temp**2 * humidity**2)
+		
+		adjustment = 0
+
+		if (f_temp >= 80 and humidity < 13):
+			adjustment = -(((13 - humidity)/4) * ((17 - abs(f_temp - 95))/17)**(0.5))
+		elif (f_temp >= 80 and f_temp <= 87 and humidity > 85):
+			adjustment = ((humidity - 85)/10)*((87 - f_temp)/5)
+
+		feel_temp = feel_temp + adjustment
+	else:
+		feel_temp = 0.5 * (f_temp + 61.0 + ((f_temp - 68.0) * 1.2) + (humidity * 0.094))	
 
 	# Return the converted value of the actual temperature in Celsius
 	return convert(feel_temp, 'F')
@@ -68,7 +82,7 @@ def main():
 	heat_index = 0
 	temp_msg = ""
 
-	heat_index = get_heat_index(temp, float(humidity)/100)
+	heat_index = get_heat_index(temp, humidity)
 	temp_msg = ""
 
 	if (heat_index < 0):
