@@ -62,7 +62,7 @@ def main():
 	api = get_api(cfg)
 	cur_loc = get_cur_loc()
 	temp_and_humidity = get_temp_and_humidity(float(cur_loc['loc'].split(',')[0]), float(cur_loc['loc'].split(',')[1]))
-	temp = temp_and_humidity[0][1]
+	temp = temp_and_humidity[0]
 	humidity = temp_and_humidity[1]
 	# Compute the heat index based on the current temperature and humidity
 	heat_index = 0
