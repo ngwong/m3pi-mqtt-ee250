@@ -62,37 +62,34 @@ def main():
 	api = get_api(cfg)
 	cur_loc = get_cur_loc()
 	temp_and_humidity = get_temp_and_humidity(float(cur_loc['loc'].split(',')[0]), float(cur_loc['loc'].split(',')[1]))
-	temp = temp_and_humidity[0]
+	temp = temp_and_humidity[0]['item']
 	humidity = temp_and_humidity[1]
 	# Compute the heat index based on the current temperature and humidity
 	heat_index = 0
 	temp_msg = ""
 
-	# heat_index = get_heat_index(temp, humidity)
-	# temp_msg = ""
+	heat_index = get_heat_index(temp, humidity)
+	temp_msg = ""
 
-	# if (heat_index < 0):
-	# 	temp_msg = 'really cold'
-	# elif (heat_index < 10):
-	# 	temp_msg = 'cold'
-	# elif (heat_index < 20):
-	# 	temp_msg = 'warm'
-	# elif (heat_index < 30):
-	# 	temp_msg = 'hot'
-	# else:
-	# 	temp_msg = 'really hot'
+	if (heat_index < 0):
+		temp_msg = 'really cold'
+	elif (heat_index < 10):
+		temp_msg = 'cold'
+	elif (heat_index < 20):
+		temp_msg = 'warm'
+	elif (heat_index < 30):
+		temp_msg = 'hot'
+	else:
+		temp_msg = 'really hot'
 
 	org = " ".join(cur_loc['org'].split()[1:])
 	city = cur_loc['city']
 	region = cur_loc['region']
 	postal = cur_loc['postal']
 
-	print temp
-	print temp['temp']
-
-	# tweet = "It seems " + temp_msg + " in " + org + ", " + city + ", " + region + " " + postal + '\n\n' \
-	# 		"Outside: T = " + temp + " C, H = " + humidity + "%, Feels like " + heat_index + " C"
-	# status = api.update_status(status=tweet)
+	tweet = "It seems " + temp_msg + " in " + org + ", " + city + ", " + region + " " + postal + '\n\n' \
+			"Outside: T = " + temp + " C, H = " + humidity + "%, Feels like " + heat_index + " C"
+	status = api.update_status(status=tweet)
 
 if __name__ == "__main__":
 	main()
