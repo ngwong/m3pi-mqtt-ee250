@@ -44,7 +44,8 @@ def get_cur_loc():
 def get_temp_and_humidity(lat, lon):
 	owm = pyowm.OWM('13ff05b52e1127ce27d6c06b1b1cc411')
 	w = owm.weather_at_coords(lat, lon).get_weather()
-	return [json.loads(w.get_temperature('celsius'), 'utf-8'), w.get_humidity()]
+	return [w.get_temperature('celsius'), w.get_humidity()]
+	# return [json.loads(w.get_temperature('celsius'), 'utf-8'), w.get_humidity()]
 
 
 # Main function
@@ -61,7 +62,7 @@ def main():
 	api = get_api(cfg)
 	cur_loc = get_cur_loc()
 	temp_and_humidity = get_temp_and_humidity(float(cur_loc['loc'].split(',')[0]), float(cur_loc['loc'].split(',')[1]))
-	temp = temp_and_humidity[0]['temp']
+	temp = temp_and_humidity[0][1].split(':')[1]
 	humidity = temp_and_humidity[1]
 	# Compute the heat index based on the current temperature and humidity
 	heat_index = get_heat_index(temp, humidity)
