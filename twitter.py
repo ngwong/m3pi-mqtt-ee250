@@ -4,8 +4,8 @@ import tweepy
 
 def get_cur_loc():
 	send_url = 'https://ipinfo.io'
-	return requests.get(send_url)
-	#return json.loads(r.text)
+	r = requests.get(send_url)
+	return json.loads(r.text, "utf-8")
 
 def get_api(cfg):
 	auth = tweepy.OAuthHandler(cfg['consumer_key'], cfg['consumer_secret'])
@@ -22,7 +22,18 @@ def main():
 	}
 
 	api = get_api(cfg)
-	tweet = get_cur_loc()
+	cur_loc = get_cur_loc()
+	#temp = get_temp()
+	temp_msg = "N/A"
+
+	org = "".join(cur_loc['org'].split()[1:-1])
+	city = cur_loc['city']
+	region = cur_loc['region']
+	country = cur_loc['country']
+	postal = cur_loc['postal']
+
+
+	tweet = "It seems to be " + temp_msg + " in " + org + ", " + city + ", " + region + ", " + country + ", " + postal
 	status = api.update_status(status=tweet)
 
 if __name__ == "__main__":
