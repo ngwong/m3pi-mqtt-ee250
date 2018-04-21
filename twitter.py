@@ -2,6 +2,7 @@ import json
 import pyowm
 import requests
 import tweepy
+import us
 
 def convert(temp, unit):
     unit = unit.lower()
@@ -86,22 +87,23 @@ def main():
 	temp_msg = ""
 
 	if (heat_index < 0):
-		temp_msg = 'really cold'
+		temp_msg = 'Really cold'
 	elif (heat_index < 10):
-		temp_msg = 'cold'
+		temp_msg = 'Cold'
 	elif (heat_index < 20):
-		temp_msg = 'warm'
+		temp_msg = 'Warm'
 	elif (heat_index < 30):
-		temp_msg = 'hot'
+		temp_msg = 'Hot'
 	else:
-		temp_msg = 'really hot'
+		temp_msg = 'Really hot'
 
 	org = " ".join(cur_loc['org'].split()[1:])
 	city = cur_loc['city']
-	region = cur_loc['region']
+	# Get the two letter abbreviation rather than the state's full name
+	region = us.states.mapping('name', 'abbr')[cur_loc['region']]
 	postal = cur_loc['postal']
 
-	tweet = "It seems " + temp_msg + " in " + org + ", " + city + ", " + region + " " + postal + '\n\n' \
+	tweet = temp_msg + " in " + org + ", " + city + ", " + region + " " + postal + '\n\n' \
 			"Outside: T = " + str(temp) + " C, H = " + str(humidity) + "%, Feels like " + str(round(heat_index, 2)) + " C"
 	status = api.update_status(status=tweet)
 
