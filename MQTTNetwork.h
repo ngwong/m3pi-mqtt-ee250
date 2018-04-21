@@ -13,7 +13,8 @@ extern Mutex mqttMtx;
  */
 enum {
     FWD_TO_PRINT_THR = 0,
-    FWD_TO_LED_THR   = 1
+    FWD_TO_LED_THR   = 1,
+    FWD_TO_TEMP_THR  = 2
 }; 
 
 /**
