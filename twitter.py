@@ -30,10 +30,10 @@ def get_heat_index(c_temp, humidity):
 		
 		adjustment = 0
 
-		if (f_temp >= 80 and humidity < 13):
-			adjustment = -(((13 - humidity)/4) * ((17 - abs(f_temp - 95))/17)**(0.5))
+		if (f_temp >= 80 and f_temp <= 112 and humidity < 13):
+			adjustment = -(((13 - humidity) / 4) * ((17 - abs(f_temp - 95.)) / 17) ** (0.5))
 		elif (f_temp >= 80 and f_temp <= 87 and humidity > 85):
-			adjustment = ((humidity - 85)/10)*((87 - f_temp)/5)
+			adjustment = ((humidity - 85) / 10) * ((87 - f_temp) / 5)
 
 		feel_temp = feel_temp + adjustment
 	else:
