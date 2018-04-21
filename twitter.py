@@ -29,11 +29,10 @@ def main():
 	org = " ".join(cur_loc['org'].split()[1:-1])
 	city = cur_loc['city']
 	region = cur_loc['region']
-	country = cur_loc['country']
 	postal = cur_loc['postal']
 
 
-	tweet = "It seems to be " + temp_msg + " in " + org + ", " + city + ", " + region + ", " + country + ", " + postal
+	tweet = "It seems to be " + temp_msg + " in " + org + ", " + city + ", " + region + " " + postal
 	status = api.update_status(status=tweet)
 
 if __name__ == "__main__":
