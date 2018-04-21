@@ -44,7 +44,7 @@ def get_cur_loc():
 def get_temp_and_humidity(lat, lon):
 	owm = pyowm.OWM('13ff05b52e1127ce27d6c06b1b1cc411')
 	w = owm.weather_at_coords(lat, lon).get_weather()
-	return [w.get_temperature('celsius'), w.get_humidity()]
+	return [json.loads(w.get_temperature('celsius'), 'utf-8'), w.get_humidity()]
 
 
 # Main function
@@ -57,18 +57,34 @@ def main():
 		"access_token_secret"	: "1OEVW9qw3HAHYtvbGqFF5sjJTLcw7EluMboCYYpGiJGAV"
 	}
 
+	# Get functions
 	api = get_api(cfg)
 	cur_loc = get_cur_loc()
 	temp_and_humidity = get_temp_and_humidity(float(cur_loc['loc'].split(',')[0]), float(cur_loc['loc'].split(',')[1]))
-	heat_index = get_heat_index(sum(temp_and_humidity[0])/len(temp_and_humidity[0]), temp_and_humidity[1])
-	temp_msg = "N/A"
+	temp = temp_and_humidity[0]['temp']
+	humidity = temp_and_humidity[1]
+	# Compute the heat index based on the current temperature and humidity
+	heat_index = get_heat_index(temp, humidity)
+	temp_msg = ""
+
+	if (heat_index < 0):
+		temp_msg = 'really cold'
+	elif (heat_index < 10):
+		temp_msg = 'cold'
+	elif (heat_index < 20):
+		temp_msg = 'warm'
+	elif (heat_index < 30):
+		temp_msg = 'hot'
+	else:
+		temp_msg = 'really hot'
 
 	org = " ".join(cur_loc['org'].split()[1:])
 	city = cur_loc['city']
 	region = cur_loc['region']
 	postal = cur_loc['postal']
 
-	tweet = "It seems to be " + temp_msg + " in " + org + ", " + city + ", " + region + " " + postal
+	tweet = "It seems " + temp_msg + " in " + org + ", " + city + ", " + region + " " + postal + '\n\n' \
+			"Outside: T = " + temp + " C, H = " + humidity "%, Feels like " + heat_index " C"
 	status = api.update_status(status=tweet)
 
 if __name__ == "__main__":
