@@ -68,7 +68,7 @@ def main():
 	heat_index = 0
 	temp_msg = ""
 
-	heat_index = get_heat_index(temp, humidity)
+	heat_index = get_heat_index(temp, float(humidity)/100)
 	temp_msg = ""
 
 	if (heat_index < 0):
