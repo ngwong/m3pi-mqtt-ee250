@@ -88,7 +88,7 @@ def main():
 	postal = cur_loc['postal']
 
 	tweet = "It seems " + temp_msg + " in " + org + ", " + city + ", " + region + " " + postal + '\n\n' \
-			"Outside: T = " + str(temp) + " C, H = " + str(humidity) + "%, Feels like " + str(heat_index) + " C"
+			"Outside: T = " + str(temp) + " C, H = " + str(humidity) + "%, Feels like " + str(round(heat_index, 2)) + " C"
 	status = api.update_status(status=tweet)
 
 if __name__ == "__main__":
