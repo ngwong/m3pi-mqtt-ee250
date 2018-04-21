@@ -2,15 +2,21 @@ import json
 import requests
 import tweepy
 
+def get_api(cfg):
+	auth = tweepy.OAuthHandler(cfg['consumer_key'], cfg['consumer_secret'])
+	auth.set_access_token(cfg['access_token'], cfg['access_token_secret'])
+	return tweepy.API(auth)
+
 def get_cur_loc():
 	send_url = 'https://ipinfo.io'
 	r = requests.get(send_url)
 	return json.loads(r.text, "utf-8")
 
-def get_api(cfg):
-	auth = tweepy.OAuthHandler(cfg['consumer_key'], cfg['consumer_secret'])
-	auth.set_access_token(cfg['access_token'], cfg['access_token_secret'])
-	return tweepy.API(auth)
+def get_temp_and_humidity(lat, lon):
+	owm = pyowm.OWM('13ff05b52e1127ce27d6c06b1b1cc411')
+	w = owm.weather_at_coords(lat, lon)
+	return [w.get_temperature('celsius'), w.get_humidity()]
+
 
 def main():
 	# Fill in the values noted in previous step here
@@ -23,7 +29,7 @@ def main():
 
 	api = get_api(cfg)
 	cur_loc = get_cur_loc()
-	#temp = get_temp()
+	temp_and_humidity = get_temp_and_humidity(float(cur_loc['loc'].split(',')[0]), float(cur_loc['loc'].split(',')[1]))
 	temp_msg = "N/A"
 
 	org = " ".join(cur_loc['org'].split()[1:])
