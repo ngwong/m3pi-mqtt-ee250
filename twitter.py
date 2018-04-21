@@ -26,7 +26,7 @@ def main():
 	#temp = get_temp()
 	temp_msg = "N/A"
 
-	org = " ".join(cur_loc['org'].split()[1:-1])
+	org = " ".join(cur_loc['org'].split()[1:])
 	city = cur_loc['city']
 	region = cur_loc['region']
 	postal = cur_loc['postal']
