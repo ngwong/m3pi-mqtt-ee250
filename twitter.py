@@ -14,11 +14,11 @@ def get_heat_index(c_temp, humidity):
 	f_temp = convert(c_temp, 'C')
 
 	# Calculate what the temperature actually feels like
-	feel_temp = − 42.379 + 									\
+	feel_temp = -42.379 + 									\
 				(2.04901523*f_temp) + 						\
-				(10.14333127*humidity) − 					\
-				(0.22475541 * f_temp * humidity) − 			\
-				(6.83783 * 10**-3 * f_temp**2) − 			\
+				(10.14333127*humidity) - 					\
+				(0.22475541 * f_temp * humidity) - 			\
+				(6.83783 * 10**-3 * f_temp**2) - 			\
 				(5.481717 * 10**−2 * humidity**2 ) + 		\
 				(1.22874 * 10**-3 * f_temp**2 * humidity + 	\
 				(8.5282 * 10**-4 * f_temp * humidity**2 ) - \
