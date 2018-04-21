@@ -87,6 +87,7 @@ def main():
 	region = cur_loc['region']
 	postal = cur_loc['postal']
 
+	print temp
 	print temp['temp']
 
 	# tweet = "It seems " + temp_msg + " in " + org + ", " + city + ", " + region + " " + postal + '\n\n' \
