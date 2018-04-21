@@ -105,8 +105,8 @@ def main():
 	postal = cur_loc['postal']
 
 	# Store the inside value data
-	in_temp = sys.argv[1]
-	in_humidity = sys.argv[2]
+	in_temp = float(sys.argv[1])
+	in_humidity = float(sys.argv[2])
 	in_heat_index = get_heat_index(in_temp, in_humidity)
 
 	tweet = temp_msg + " in " + org + ", " + city + ", " + region + " " + postal + '\n' +											\
