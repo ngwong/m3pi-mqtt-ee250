@@ -1,4 +1,5 @@
 import json
+import pyowm
 import requests
 import tweepy
 
