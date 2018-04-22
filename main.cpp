@@ -172,6 +172,20 @@ void messageArrived(MQTT::MessageData& md)
             msg->length = message.payloadlen;
             getLEDThreadMailbox()->put(msg);
             break;
+        case FWD_TO_TEMP_THR:
+            printf("fwding to temperature thread\n");
+            msg = getTempThreadMailbox()->alloc();
+
+            if (!msg)   {
+                printf("temp thread mailbox full\n");
+                break;
+            }
+
+            memcpy(msg->content, message.payload, message.payloadlen);
+            msg->length = message.payloadlen;
+            msg = getTempThreadMailbox()->put(msg);
+            break;
+
         default:
             /* do nothing */
             printf("Unknown MQTT message\n");
