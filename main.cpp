@@ -200,22 +200,22 @@ int main()
        at a speed of 25 (speed can be between -127 to 127) for 100 ms. Use
        functions like this in your program to move your m3pi when you get 
        MQTT messages! */
-    movement('w', 25, 100);
-    movement('w', 25, 100);
-    movement('w', 25, 100);
-    movement('w', 25, 100);
-    movement('a', 25, 100);
-    movement('a', 25, 100);
-    movement('a', 25, 100);
-    movement('a', 25, 100);
-    movement('d', 25, 100);
-    movement('d', 25, 100);
-    movement('d', 25, 100);
-    movement('d', 25, 100);
-    movement('s', 25, 100);
-    movement('s', 25, 100);
-    movement('s', 25, 100);
-    movement('s', 25, 100);
+    // movement('w', 25, 100);
+    // movement('w', 25, 100);
+    // movement('w', 25, 100);
+    // movement('w', 25, 100);
+    // movement('a', 25, 100);
+    // movement('a', 25, 100);
+    // movement('a', 25, 100);
+    // movement('a', 25, 100);
+    // movement('d', 25, 100);
+    // movement('d', 25, 100);
+    // movement('d', 25, 100);
+    // movement('d', 25, 100);
+    // movement('s', 25, 100);
+    // movement('s', 25, 100);
+    // movement('s', 25, 100);
+    // movement('s', 25, 100);
 
     wait(1); //delay startup 
     printf("Resetting ESP8266 Hardware...\n");
@@ -293,6 +293,9 @@ int main()
 
         if(!client.isConnected())
             mbed_reset(); //connection lost! software reset
+
+        // Move forward
+        movement('w', 25, 100);
 
         /* yield() needs to be called at least once per keepAliveInterval. */
         client.yield(1000);
