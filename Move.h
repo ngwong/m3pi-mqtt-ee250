@@ -5,3 +5,5 @@
 
 extern Mutex dir_mut;
 extern char dir;
+
+#endif /* _MOVE_H */
