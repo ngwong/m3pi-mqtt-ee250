@@ -53,6 +53,7 @@
 #include "MQTTNetwork.h"
 #include "MQTTClient.h"
 #include "MailMsg.h"
+#include "Move.h"
 #include "LEDThread.h"
 #include "PrintThread.h"
 

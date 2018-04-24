@@ -51,7 +51,7 @@
 
 Mail<MailMsg, MOVETHREAD_MAILBOX_SIZE> MoveMailbox;
 
-void MoveThread(void *args) 
+void moveThread(void *args) 
 {
     MQTT::Client<MQTTNetwork, Countdown> *client = (MQTT::Client<MQTTNetwork, Countdown> *)args;
     MailMsg *msg;
@@ -79,7 +79,7 @@ void MoveThread(void *args)
     /* this should never be reached */
 }
 
-Mail<MailMsg, MOVETHREAD_MAILBOX_SIZE> *getMoveEThreadMailbox() 
+Mail<MailMsg, MOVETHREAD_MAILBOX_SIZE> *getMoveThreadMailbox() 
 {
     return &MoveMailbox;
 }
