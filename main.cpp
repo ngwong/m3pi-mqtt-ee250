@@ -86,7 +86,8 @@ Mutex mqttMtx;
 
 static char *topic = "m3pi-mqtt-ee250";
 
-AnalogIn ultraSonic(p22); //ultrasonic sensor analog in
+AnalogIn ultraSonic(p19); //ultrasonic sensor analog in
+AnalogIn tempHumid(p18); // Temperature and Humidity Sensor Analog In
 
 /**
  * @brief      controls movement of the 3pi
@@ -176,19 +177,19 @@ void messageArrived(MQTT::MessageData& md)
             msg->length = message.payloadlen;
             getLEDThreadMailbox()->put(msg);
             break;
-        // case FWD_TO_TEMP_THR:
-        //     printf("fwding to temperature thread\n");
-        //     msg = getTempThreadMailbox()->alloc();
+        case FWD_TO_MOVE_THR:
+            printf("fwding to move thread\n");
+            msg = getMoveThreadMailbox()->alloc();
 
-        //     if (!msg)   {
-        //         printf("temp thread mailbox full\n");
-        //         break;
-        //     }
+            if (!msg)   {
+                printf("move thread mailbox full\n");
+                break;
+            }
 
-        //     memcpy(msg->content, message.payload, message.payloadlen);
-        //     msg->length = message.payloadlen;
-        //     msg = getTempThreadMailbox()->put(msg);
-        //     break;
+            memcpy(msg->content, message.payload, message.payloadlen);
+            msg->length = message.payloadlen;
+            msg = getMoveThreadMailbox()->put(msg);
+            break;
 
         default:
             /* do nothing */
@@ -277,6 +278,9 @@ int main()
        PrintThread files to understand how these threads work.*/
     Thread ledThr;
     Thread printThr;
+    Thread moveThr;
+
+    moveThr.start(callback(moveThread, (void *) &client));
 
     /* Here, we pass in a pointer to the MQTT client so the LED thread can 
        client.publish() messages */
