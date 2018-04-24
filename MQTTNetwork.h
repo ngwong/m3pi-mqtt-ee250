@@ -21,7 +21,7 @@ enum {
 /**
  * Move thread task types
  */
-enum move_command{
+enum : char{
 	MOVE_LEFT 			= 'a',
 	MOVE_FORWARD_LEFT	= 'q',
 	MOVE_FORWARD 		= 'w',
@@ -31,7 +31,6 @@ enum move_command{
 	MOVE_BACK 			= 's',
 	MOVE_BACK_LEFT		= 'z',
 };
-typedef char move_command;
 
 /**
  * LED thread task types

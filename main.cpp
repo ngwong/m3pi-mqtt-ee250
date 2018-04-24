@@ -347,22 +347,6 @@ int main()
 			
 		}
 
-		char *args[] = {argv[0], "11.8", "37"};
-
-		Py_SetProgramName(argv[0]);
-		Py_Initialize();
-		PySys_SetArgv(sizeof(args)/sizeof(char*), args);
-
-		FILE *in = fopen("twitter.py", "r");
-		PyRun_SimpleFile(in, "twitter.py");
-
-
-		Py_Finalize();
-		fclose(in);
-
-		// Move forward
-		movement('w', 25, 100);
-
 		/* yield() needs to be called at least once per keepAliveInterval. */
 		client.yield(1000);
 	}
