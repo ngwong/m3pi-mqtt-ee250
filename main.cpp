@@ -86,6 +86,8 @@ Mutex mqttMtx;
 
 static char *topic = "m3pi-mqtt-ee250";
 
+AnalogIn ultraSonic(p22); //ultrasonic sensor analog in
+
 /**
  * @brief      controls movement of the 3pi
  *
@@ -296,6 +298,10 @@ int main()
 
         if(!client.isConnected())
             mbed_reset(); //connection lost! software reset
+
+        if(ultraSonic < 25){
+        	
+        }
 
         char *args[] = {argv[0], "11.8", "37"};
 
