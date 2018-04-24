@@ -187,7 +187,7 @@ void messageArrived(MQTT::MessageData& md)
 
 			memcpy(msg->content, message.payload, message.payloadlen);
 			msg->length = message.payloadlen;
-			msg = getMoveThreadMailbox()->put(msg);
+			getMoveThreadMailbox()->put(msg);
 			break;
 
 		default:
