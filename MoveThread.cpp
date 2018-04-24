@@ -49,11 +49,7 @@
 
 #include "MQTTClient.h"
 
-Mail<MailMsg, MOVETHREAD_MAILBOX_SIZE> MOVEMailbox;
-
-static DigitalOut move2(MOVE2);
-
-static const char *topic = "m3pi-mqtt-ee250/move-thread";
+Mail<MailMsg, MOVETHREAD_MAILBOX_SIZE> MoveMailbox;
 
 void MoveThread(void *args) 
 {

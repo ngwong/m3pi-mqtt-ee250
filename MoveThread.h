@@ -43,8 +43,8 @@
  * @author     Bhaskar Krishnachari <bkrishna@usc.edu>
  */
 
-#ifndef _MOVETHREAD_H_
-#define _MOVETHREAD_H_
+#ifndef _MOVE_THREAD_H_
+#define _MOVE_THREAD_H_
 
 #include "rtos.h"
 #include "MailMsg.h"
@@ -65,4 +65,4 @@ void moveThread(void *args);
  */
 Mail<MailMsg, MOVETHREAD_MAILBOX_SIZE> *getMoveThreadMailbox();
 
-#endif /* _MOVETHREAD_H_ */
+#endif /* _MOVE_THREAD_H_ */
