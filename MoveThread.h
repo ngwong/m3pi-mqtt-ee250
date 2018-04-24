@@ -48,6 +48,7 @@
 
 #include "rtos.h"
 #include "MailMsg.h"
+#include "Move.h"
 
 #define MOVETHREAD_MAILBOX_SIZE  32
 
@@ -62,6 +63,6 @@ void moveThread(void *args);
  * @brief      Returns a pointer to the move thread's mailbox
  * @return     Pointer to move thread's mailbox
  */
-Mail<MailMsg, LEDTHREAD_MAILBOX_SIZE> *getMoveThreadMailbox();
+Mail<MailMsg, MOVETHREAD_MAILBOX_SIZE> *getMoveThreadMailbox();
 
 #endif /* _MOVETHREAD_H_ */

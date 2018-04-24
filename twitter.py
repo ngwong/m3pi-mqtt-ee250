@@ -20,11 +20,11 @@ def get_heat_index(c_temp, out_humidity):
 	feel_temp = float(0)
 
 	if (f_temp >= 80):
-		feel_temp = -42.379 + 								\
-				(2.04901523 * f_temp) + 					\
+		feel_temp = -42.379 + 									\
+				(2.04901523 * f_temp) + 						\
 				(10.14333127 * out_humidity) - 					\
 				(0.22475541 * f_temp * out_humidity) - 			\
-				(6.83783 * 10**-3 * f_temp**2) - 			\
+				(6.83783 * 10**-3 * f_temp**2) - 				\
 				(5.481717 * 10**-2 * out_humidity**2 ) + 		\
 				(1.22874 * 10**-3 * f_temp**2 * out_humidity) + \
 				(8.5282 * 10**-4 * f_temp * out_humidity**2 ) - \
