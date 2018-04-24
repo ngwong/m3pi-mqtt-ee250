@@ -83,6 +83,9 @@ m3pi m3pi(p23, p9, p10);
  */
 Mutex mqttMtx;
 
+Mutex dir_mut;
+char dir;
+
 static char *topic = "m3pi-mqtt-ee250";
 
 AnalogIn ultraSonic(p19); //ultrasonic sensor analog in
