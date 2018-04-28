@@ -1,8 +1,5 @@
 {
     "config": {
-        "thread-stack-size":{
-            "value: 2000"
-        },
         "network-interface":{
             "help": "options are ETHERNET, WIFI_ESP8266, WIFI_IDW01M1, WIFI_ODIN, WIFI_RTW, MESH_LOWPAN_ND, MESH_THREAD, CELLULAR_ONBOARD",
             "value": "WIFI_ESP8266"

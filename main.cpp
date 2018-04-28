@@ -347,9 +347,7 @@ int main()
 		}
 
 
-		if(ultraSonic < 25){
-			
-		}
+		
 
 		/* yield() needs to be called at least once per keepAliveInterval. */
 		client.yield(1000);
