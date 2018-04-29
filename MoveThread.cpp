@@ -67,6 +67,8 @@ void moveThread(void *args)
         if(evt.status == osEventMail) {
             msg = (MailMsg *)evt.value.p;
 
+            printf("%s\n", msg->content);
+
             /* the second byte in the message denotes the action type */
             dir_mut.lock();
             dir = msg->content[1];

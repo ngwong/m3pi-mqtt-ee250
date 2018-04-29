@@ -148,7 +148,7 @@ void messageArrived(MQTT::MessageData& md)
 	/* Ship (or "dispatch") the entire message via Mail to threads since the 
 	   reference to messages will be destroyed by the MQTT thread when this 
 	   callback returns */
-	switch(fwdTarget)
+	switch(fwdTarget - '0')
 	{
 		case FWD_TO_PRINT_THR:
 			printf("fwding to print thread\n");
@@ -301,7 +301,7 @@ int main()
 	 be used by the MQTTAsync library. Please do NOT do anything else in this
 	 thread. Let it serve as your background MQTT thread. */
 	while(1) {
-		Thread::wait(1000);
+		Thread::wait(10);
 		printf("main: yielding...\n", client.isConnected());
 
 		if(!client.isConnected())
@@ -312,6 +312,8 @@ int main()
 			loc_dir = dir;
 			dir_mut.unlock();
 		}
+
+		printf("%c\n",loc_dir);
 
 		switch (loc_dir)    {
 			case MOVE_LEFT:
@@ -343,6 +345,7 @@ int main()
 				movement('a', 25, 100);
 				break;
 			default:
+				loc_dir = 'n';
 				break;
 		}
 
