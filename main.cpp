@@ -381,7 +381,7 @@ int main()
 				movement('z', 25, 100);
 				break;
 			case EXPLORE:
-				float d
+				float d;
 				while ((d = rf.read_m()) != -1.0)	{}
 
 				if (d > 1.0)
