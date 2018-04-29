@@ -278,9 +278,9 @@ int main()
 	   provided and make a copy of it. Otherewise, you can gut out the two 
 	   threads and insert your application code. Read the LEDThread and 
 	   PrintThread files to understand how these threads work.*/
-	Thread ledThr;
-	Thread printThr;
-	Thread moveThr;
+	Thread ledThr(osPriorityNorma, 1000);
+	Thread printThr(osPriorityNorma, 1000);
+	Thread moveThr(osPriorityNorma, 1000);
 
 	moveThr.start(callback(moveThread, (void *) &client));
 
