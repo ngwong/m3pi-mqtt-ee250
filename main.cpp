@@ -349,7 +349,7 @@ int main()
 				break;
 		}
 
-
+		printf("normalized: 0x%04X \n", ultraSonic.read_u16());
 		
 
 		/* yield() needs to be called at least once per keepAliveInterval. */
