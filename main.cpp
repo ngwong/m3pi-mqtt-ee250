@@ -56,6 +56,8 @@
 #include "MoveThread.h"
 #include "LEDThread.h"
 #include "PrintThread.h"
+#include "DHT.h"
+#include "RangeFinder.h"
 
 extern "C" void mbed_reset();
 
@@ -88,8 +90,11 @@ char dir;
 
 static char *topic = "m3pi-mqtt-ee250";
 
-AnalogIn ultraSonic(p19); //ultrasonic sensor analog in
-AnalogIn tempHumid(p18); // Temperature and Humidity Sensor Analog In
+//AnalogIn ultraSonic(p19); //ultrasonic sensor analog in
+//AnalogIn tempHumid(p18); // Temperature and Humidity Sensor Analog In
+RangeFinder rf(p19, 10, 5800.0, 100000);
+DHT sensor(p18,SEN11301P); // Use the SEN11301P sensor
+
 
 /**
  * @brief      controls movement of the 3pi
@@ -224,6 +229,8 @@ int main()
 	// movement('s', 25, 100);
 	// movement('s', 25, 100);
 	// movement('s', 25, 100);
+	int err;
+	float d;
 
 	wait(1); //delay startup 
 	printf("Resetting ESP8266 Hardware...\n");
@@ -349,8 +356,32 @@ int main()
 				break;
 		}
 
-		printf("normalized: 0x%04X \n", ultraSonic.read_u16());
-		
+		//printf("percentage: %3.3f%%\n", ultraSonic.read()*100.0f);
+		//printf("percentage: %3.3f%%\n", tempHumid.read()*100.0f);
+		err = sensor.readData();
+        if (err == 0) {
+            printf("Temperature is %4.2f C \r\n",sensor.ReadTemperature(CELCIUS));
+            //printf("Temperature is %4.2f F \r\n",sensor.ReadTemperature(FARENHEIT));
+            //printf("Temperature is %4.2f K \r\n",sensor.ReadTemperature(KELVIN));
+            printf("Humidity is %4.2f \r\n",sensor.ReadHumidity());
+            //printf("Dew point is %4.2f  \r\n",sensor.CalcdewPoint(sensor.ReadTemperature(CELCIUS), sensor.ReadHumidity()));
+            //printf("Dew point (fast) is %4.2f  \r\n",sensor.CalcdewPointFast(sensor.ReadTemperature(CELCIUS), sensor.ReadHumidity()));
+        } else {
+            printf("\r\nErr %i \n",err);
+            printf("Temperature is %4.2f C \r\n",sensor.ReadTemperature(CELCIUS));
+            printf("Humidity is %4.2f \r\n",sensor.ReadHumidity());
+        }
+
+        d = rf.read_m();
+        if (d == -1.0)  {
+            printf("Timeout Error.\n");   
+        } else if (d > 5.0) {  
+            // Seeed's sensor has a maximum range of 4m, it returns
+            // something like 7m if the ultrasound pulse isn't reflected. 
+            printf("No object within detection range.\n");
+        } else  {
+            printf("Distance = %f m.\n", d);
+        }
 
 		/* yield() needs to be called at least once per keepAliveInterval. */
 		client.yield(1000);
