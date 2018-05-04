@@ -13,7 +13,7 @@ extern Mutex mqttMtx;
  */
 enum {
 	FWD_TO_PRINT_THR = 0,
-	FWD_TO_LED_THR   = 1,
+	FWD_TO_TEMP_THR = 1,
 	FWD_TO_MOVE_THR = 2,
 	// FWD_TO_TEMP_THR  = 2
 }; 
@@ -34,12 +34,10 @@ enum : char{
 };
 
 /**
- * LED thread task types
+ * Temp thread task types
  */
-enum {
-	LED_THR_PUBLISH_MSG,
-	LED_ON_ONE_SEC,
-	LED_BLINK_FAST
+enum : char{
+	TEMP_THR_PUBLISH_MSG = 't'
 };
 
 /**

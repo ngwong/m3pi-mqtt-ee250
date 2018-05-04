@@ -58,69 +58,53 @@ static const char *topic = "m3pi-mqtt-ee250/temp-thread";
 
 void TempThread(void *args) 
 {
-    MQTT::Client<MQTTNetwork, Countdown> *client = (MQTT::Client<MQTTNetwork, Countdown> *)args;
-    MailMsg *msg;
-    MQTT::Message message;
-    osEvent evt;
-    char pub_buf[16];
+	MQTT::Client<MQTTNetwork, Countdown> *client = (MQTT::Client<MQTTNetwork, Countdown> *)args;
+	MailMsg *msg;
+	MQTT::Message message;
+	osEvent evt;
+	char pub_buf[16];
 
 
-    while(1) {
+	while(1) {
 
-        evt = TempMailbox.get();
+		evt = TempMailbox.get();
 
-        if(evt.status == osEventMail) {
-            msg = (MailMsg *)evt.value.p;
+		if(evt.status == osEventMail) {
+			msg = (MailMsg *)evt.value.p;
 
-            /* the second byte in the message denotes the action type */
-            switch (msg->content[1]) {
-                case TEMP_THR_PUBLISH_MSG:
-                    printf("TempThread: received command to publish to topic"
-                           "m3pi-mqtt-example/temp-thread\n");
-                    pub_buf[0] = 'h';
-                    pub_buf[1] = 'i';
-                    message.qos = MQTT::QOS0;
-                    message.retained = false;
-                    message.dup = false;
-                    message.payload = (void*)pub_buf;
-                    message.payloadlen = 2; //MQTTclient.h takes care of adding null char?
-                    /* Lock the global MQTT mutex before publishing */
-                    mqttMtx.lock();
-                    client->publish(topic, message);
-                    mqttMtx.unlock();
-                    break;
-                case TEMP_ON_ONE_SEC:
-                    printf("TempThread: received message to turn LED2 on for"
-                           "one second...\n");
-                    led2 = 1;
-                    wait(1);
-                    led2 = 0;
-                    break;
-                case TEMP_BLINK_FAST:
-                    printf("TempThread: received message to blink LED2 fast for"
-                           "one second...\n");
-                    for(int i = 0; i < 10; i++)
-                    {
-                        led2 = !led2;
-                        wait(0.1);
-                    }
-                    led2 = 0;
-                    break;
-                default:
-                    printf("LEDThread: invalid message\n");
-                    break;
-            }            
+			/* the second byte in the message denotes the action type */
+			switch (msg->content[1]) {
+				case TEMP_THR_PUBLISH_MSG:
+					printf("TempThread: received command to publish to topic"
+						   "m3pi-mqtt-example/temp-thread\n");
+					// Block until a appropriate sensor value is given
+					while (sensor.readData() != 0)	
+						sprintf(pub_buf, "%4.2f,%4.2f", sensor.ReadTemperature(CELCIUS), sensor.readHumidity())
+					message.qos = MQTT::QOS0;
+					message.retained = false;
+					message.dup = false;
+					message.payload = (void*)pub_buf;
+					message.payloadlen = 9; //MQTTclient.h takes care of adding null char?
+					/* Lock the global MQTT mutex before publishing */
+					mqttMtx.lock();
+					client->publish(topic, message);
+					mqttMtx.unlock();
+					break;
+				default:
+					printf("TempThread: invalid message\n");
+					break;
+			}            
 
-            TempMailbox.free(msg);
-        }
-    } /* while */
+			TempMailbox.free(msg);
+		}
+	} /* while */
 
-    /* this should never be reached */
+	/* this should never be reached */
 }
 
 Mail<MailMsg, TEMPTHREAD_MAILBOX_SIZE> *getTempThreadMailbox() 
 {
-    return &TempMailbox;
+	return &TempMailbox;
 }
 
 

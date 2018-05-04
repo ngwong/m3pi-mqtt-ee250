@@ -54,7 +54,6 @@
 #include "MQTTClient.h"
 #include "MailMsg.h"
 #include "MoveThread.h"
-#include "LEDThread.h"
 #include "PrintThread.h"
 #include "DHT.h"
 #include "RangeFinder.h"
@@ -93,7 +92,7 @@ static char *topic = "m3pi-mqtt-ee250";
 //AnalogIn ultraSonic(p19); //ultrasonic sensor analog in
 //AnalogIn tempHumid(p18); // Temperature and Humidity Sensor Analog In
 RangeFinder rf(p19, 10, 5800.0, 100000);
-DHT sensor(p18,SEN11301P); // Use the SEN11301P sensor
+// DHT sensor(p18,SEN11301P); // Use the SEN11301P sensor
 
 
 /**
@@ -173,16 +172,16 @@ void messageArrived(MQTT::MessageData& md)
 			/* put the piece of mail into the target thread's mailbox */
 			getPrintThreadMailbox()->put(msg);
 			break;
-		case FWD_TO_LED_THR:
-			printf("fwding to led thread\n");
-			msg = getLEDThreadMailbox()->alloc();
+		case FWD_TO_TEMP_THR:
+			printf("fwding to temp thread\n");
+			msg = getTempThreadMailbox()->alloc();
 			if (!msg) {
-				printf("led thread mailbox full!\n");
+				printf("temp thread mailbox full!\n");
 				break;
 			}
 			memcpy(msg->content, message.payload, message.payloadlen);
 			msg->length = message.payloadlen;
-			getLEDThreadMailbox()->put(msg);
+			getTempThreadMailbox()->put(msg);
 			break;
 		case FWD_TO_MOVE_THR:
 			printf("fwding to move thread\n");
@@ -283,17 +282,17 @@ int main()
 	/* This is a good point to launch your threads. If you want to create 
 	   another thread, you can look at the structure of the two threads we 
 	   provided and make a copy of it. Otherewise, you can gut out the two 
-	   threads and insert your application code. Read the LEDThread and 
+	   threads and insert your application code. Read the TempThread and 
 	   PrintThread files to understand how these threads work.*/
-	Thread ledThr(osPriorityNormal, 1000);
+	Thread tempThr(osPriorityNormal, 1000);
 	Thread printThr(osPriorityNormal, 1000);
 	Thread moveThr(osPriorityNormal, 1000);
 
 	moveThr.start(callback(moveThread, (void *) &client));
 
-	/* Here, we pass in a pointer to the MQTT client so the LED thread can 
+	/* Here, we pass in a pointer to the MQTT client so the Temp thread can 
 	   client.publish() messages */
-	ledThr.start(callback(LEDThread, (void *)&client));
+	tempThr.start(callback(tempThread, (void *)&client));
 
 	/* Here, we do not pass the pointer in. This means the printing thread 
 	   won't be able to publish any MQTT messages. Modify this accordingly if
@@ -337,8 +336,8 @@ int main()
 				movement('w', 25, 100);
 				movement('d', 25, 100);
 				break;
-		 	case MOVE_RIGHT:
-		 		movement('d', 25, 100);
+			case MOVE_RIGHT:
+				movement('d', 25, 100);
 				break;
 			case MOVE_BACK_RIGHT:
 				movement('s', 25, 100);
@@ -356,32 +355,34 @@ int main()
 				break;
 		}
 
-		//printf("percentage: %3.3f%%\n", ultraSonic.read()*100.0f);
-		//printf("percentage: %3.3f%%\n", tempHumid.read()*100.0f);
-		err = sensor.readData();
-        if (err == 0) {
-            printf("Temperature is %4.2f C \r\n",sensor.ReadTemperature(CELCIUS));
-            //printf("Temperature is %4.2f F \r\n",sensor.ReadTemperature(FARENHEIT));
-            //printf("Temperature is %4.2f K \r\n",sensor.ReadTemperature(KELVIN));
-            printf("Humidity is %4.2f \r\n",sensor.ReadHumidity());
-            //printf("Dew point is %4.2f  \r\n",sensor.CalcdewPoint(sensor.ReadTemperature(CELCIUS), sensor.ReadHumidity()));
-            //printf("Dew point (fast) is %4.2f  \r\n",sensor.CalcdewPointFast(sensor.ReadTemperature(CELCIUS), sensor.ReadHumidity()));
-        } else {
-            printf("\r\nErr %i \n",err);
-            printf("Temperature is %4.2f C \r\n",sensor.ReadTemperature(CELCIUS));
-            printf("Humidity is %4.2f \r\n",sensor.ReadHumidity());
-        }
 
-        d = rf.read_m();
-        if (d == -1.0)  {
-            printf("Timeout Error.\n");   
-        } else if (d > 5.0) {  
-            // Seeed's sensor has a maximum range of 4m, it returns
-            // something like 7m if the ultrasound pulse isn't reflected. 
-            printf("No object within detection range.\n");
-        } else  {
-            printf("Distance = %f m.\n", d);
-        }
+
+		//printf("percentage: %3.3f%%\n", ultraSonic.read()*100.0f);
+		// err = sensor.readData();
+		// //printf("percentage: %3.3f%%\n", tempHumid.read()*100.0f);
+		// if (err == 0) {
+		// 	printf("Temperature is %4.2f C \r\n",sensor.ReadTemperature(CELCIUS));
+		// 	//printf("Temperature is %4.2f F \r\n",sensor.ReadTemperature(FARENHEIT));
+		// 	//printf("Temperature is %4.2f K \r\n",sensor.ReadTemperature(KELVIN));
+		// 	printf("Humidity is %4.2f \r\n",sensor.ReadHumidity());
+		// 	//printf("Dew point is %4.2f  \r\n",sensor.CalcdewPoint(sensor.ReadTemperature(CELCIUS), sensor.ReadHumidity()));
+		// 	//printf("Dew point (fast) is %4.2f  \r\n",sensor.CalcdewPointFast(sensor.ReadTemperature(CELCIUS), sensor.ReadHumidity()));
+		// } else {
+		// 	printf("\r\nErr %i \n",err);
+		// 	printf("Temperature is %4.2f C \r\n",sensor.ReadTemperature(CELCIUS));
+		// 	printf("Humidity is %4.2f \r\n",sensor.ReadHumidity());
+		// }
+
+		d = rf.read_m();
+		if (d == -1.0)  {
+			printf("Timeout Error.\n");   
+		} else if (d > 5.0) {  
+			// Seeed's sensor has a maximum range of 4m, it returns
+			// something like 7m if the ultrasound pulse isn't reflected. 
+			printf("No object within detection range.\n");
+		} else  {
+			printf("Distance = %f m.\n", d);
+		}
 
 		/* yield() needs to be called at least once per keepAliveInterval. */
 		client.yield(1000);
