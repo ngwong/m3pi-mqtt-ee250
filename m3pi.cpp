@@ -78,27 +78,24 @@ void m3pi::right (char speed) {
 }
 
 void m3pi::forward_left (char speed) {
-    motor(0,-1*speed);
-    motor(1,-1*speed/2);
-}
-
-void m3pi::forward_right (char speed) {
-    motor(0,-1*speed/2);
-    motor(1,-1*speed);
-}
-
-void m3pi::backward_left (char speed) {
     motor(0,speed);
     motor(1,speed/2);
 }
 
-void m3pi::backward_right (char speed) {
+void m3pi::forward_right (char speed) {
     motor(0,speed/2);
     motor(1,speed);
 }
 
+void m3pi::backward_left (char speed) {
+    motor(0,-1*speed);
+    motor(1,-1*speed/2);
+}
 
-
+void m3pi::backward_right (char speed) {
+    motor(0,-1*speed/2);
+    motor(1,-1*speed);
+}
 
 void m3pi::stop (void) {
     motor(0,0);
