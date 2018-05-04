@@ -153,6 +153,26 @@ public:
      */
     void right (char speed);
 
+    /** Drive left motor forward and right motor forward at double the speed
+     * @param speed A normalised number -127 - 127 represents the full range
+     */
+    void forward_left (char speed);
+
+    /** Drive left motor forward and right motor forward at half the speed
+     * @param speed A normalised number -127 - 127 represents the full range
+     */
+    void forward_right (char speed);
+
+    /** Drive left motor backwards and right motor backwards at double the speed
+     * @param speed A normalised number -127 - 127 represents the full range
+     */
+    void backward_left (char speed);
+
+    /** Drive left motor backwards and right motor backwards at half the speed
+     * @param speed A normalised number -127 - 127 represents the full range
+     */
+    void backward_right (char speed);
+
     /** Stop both motors
      *
      */

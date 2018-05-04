@@ -139,28 +139,20 @@ void movement(char command, char speed, int delta_t)
 		m3pi.stop();
 	}
 	else if (command == 'q')	{
-		m3pi.backward(speed);
-		Thread::wait(delta_t/2);
-		m3pi.left(speed);
-		Thread::wait(delta_t/2);
+		m3pi.backward_left(speed);
+		Thread::wait(delta_t);
 		m3pi.stop();
 	} else if (command == 'e')	{
-		m3pi.backward(speed);
-		Thread::wait(delta_t/2);
-		m3pi.right(speed);
-		Thread::wait(delta_t/2);
+		m3pi.backward_right(speed);
+		Thread::wait(delta_t);
 		m3pi.stop();
 	} else if (command == 'c')	{
-		m3pi.forward(speed);
-		Thread::wait(delta_t/2);
-		m3pi.right(speed);
-		Thread::wait(delta_t/2);
+		m3pi.forward_right(speed);
+		Thread::wait(delta_t);
 		m3pi.stop();
 	} else if (command == 'z')	{
-		m3pi.forward(speed);
-		Thread::wait(delta_t/2);
-		m3pi.left(speed);
-		Thread::wait(delta_t/2);
+		m3pi.forward_left(speed);
+		Thread::wait(delta_t);
 		m3pi.stop();
 	} 
 }
