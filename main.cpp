@@ -374,7 +374,7 @@ int main()
 				break;
 			case EXPLORE:
 				float d;
-				while ((d = rf.read_m()) != -1.0)	{}
+				while ((d = rf.read_m()) == -1.0)	{}
 
 				printf("Distance = %f m.\n", d);
 				if (d > 0.1)
