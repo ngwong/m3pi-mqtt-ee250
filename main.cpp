@@ -380,6 +380,14 @@ int main()
 				// movement('a', 25, 100);
 				movement('z', 25, 100);
 				break;
+			case EXPLORE:
+				float d
+				while ((d = rf.read_m()) != -1.0)	{}
+
+				if (d > 1.0)
+					movement('w', 25, 100);
+				else
+					movement('a', 25, 100);
 			default:
 				loc_dir = 'n';
 				break;
