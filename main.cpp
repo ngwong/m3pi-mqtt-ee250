@@ -376,6 +376,7 @@ int main()
 				float d;
 				while ((d = rf.read_m()) != -1.0)	{}
 
+				printf("Distance = %f m.\n", d);
 				if (d > 0.1)
 					movement('w', 25, 100);
 				else
@@ -383,35 +384,6 @@ int main()
 			default:
 				loc_dir = 'n';
 				break;
-		}
-
-
-
-		//printf("percentage: %3.3f%%\n", ultraSonic.read()*100.0f);
-		// err = sensor.readData();
-		// //printf("percentage: %3.3f%%\n", tempHumid.read()*100.0f);
-		// if (err == 0) {
-		// 	printf("Temperature is %4.2f C \r\n",sensor.ReadTemperature(CELCIUS));
-		// 	//printf("Temperature is %4.2f F \r\n",sensor.ReadTemperature(FARENHEIT));
-		// 	//printf("Temperature is %4.2f K \r\n",sensor.ReadTemperature(KELVIN));
-		// 	printf("Humidity is %4.2f \r\n",sensor.ReadHumidity());
-		// 	//printf("Dew point is %4.2f  \r\n",sensor.CalcdewPoint(sensor.ReadTemperature(CELCIUS), sensor.ReadHumidity()));
-		// 	//printf("Dew point (fast) is %4.2f  \r\n",sensor.CalcdewPointFast(sensor.ReadTemperature(CELCIUS), sensor.ReadHumidity()));
-		// } else {
-		// 	printf("\r\nErr %i \n",err);
-		// 	printf("Temperature is %4.2f C \r\n",sensor.ReadTemperature(CELCIUS));
-		// 	printf("Humidity is %4.2f \r\n",sensor.ReadHumidity());
-		// }
-
-		d = rf.read_m();
-		if (d == -1.0)  {
-			printf("Timeout Error.\n");   
-		} else if (d > 5.0) {  
-			// Seeed's sensor has a maximum range of 4m, it returns
-			// something like 7m if the ultrasound pulse isn't reflected. 
-			printf("No object within detection range.\n");
-		} else  {
-			printf("Distance = %f m.\n", d);
 		}
 
 		/* yield() needs to be called at least once per keepAliveInterval. */
