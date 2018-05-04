@@ -307,7 +307,7 @@ int main()
 	 be used by the MQTTAsync library. Please do NOT do anything else in this
 	 thread. Let it serve as your background MQTT thread. */
 	while(1) {
-		Thread::wait(10);
+		//Thread::wait(10);
 		printf("main: yielding...\n", client.isConnected());
 
 		if(!client.isConnected())
