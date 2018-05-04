@@ -55,6 +55,7 @@
 #include "MailMsg.h"
 #include "MoveThread.h"
 #include "PrintThread.h"
+#include "TempThread.h"
 #include "DHT.h"
 #include "RangeFinder.h"
 
