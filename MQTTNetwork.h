@@ -30,6 +30,7 @@ enum : char{
 	MOVE_BACK_RIGHT		= 'c',
 	MOVE_BACK 			= 's',
 	MOVE_BACK_LEFT		= 'z',
+	EXPLORE				= 'x'
 };
 
 /**
