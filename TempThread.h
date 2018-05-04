@@ -57,7 +57,7 @@
  *
  * @param      args  Pointer to the MQTT client so the Temp thread can .publish().
  */
-void TempThread(void *args);
+void tempThread(void *args);
 
 /**
  * @brief      Returns a pointer to the temp thread's mailbox
