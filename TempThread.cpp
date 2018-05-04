@@ -79,7 +79,7 @@ void TempThread(void *args)
 						   "m3pi-mqtt-example/temp-thread\n");
 					// Block until a appropriate sensor value is given
 					while (sensor.readData() != 0)	
-						sprintf(pub_buf, "%4.2f,%4.2f", sensor.ReadTemperature(CELCIUS), sensor.readHumidity())
+						sprintf(pub_buf, "%4.2f,%4.2f", sensor.ReadTemperature(CELCIUS), sensor.ReadHumidity())
 					message.qos = MQTT::QOS0;
 					message.retained = false;
 					message.dup = false;
