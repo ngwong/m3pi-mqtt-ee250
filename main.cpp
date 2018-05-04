@@ -385,7 +385,7 @@ int main()
 		}
 
 		/* yield() needs to be called at least once per keepAliveInterval. */
-		client.yield(1000);
+		client.yield(10);
 	}
 
 	return 0;
