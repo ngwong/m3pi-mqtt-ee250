@@ -376,7 +376,7 @@ int main()
 				float d;
 				while ((d = rf.read_m()) != -1.0)	{}
 
-				if (d > 0.25)
+				if (d > 0.1)
 					movement('w', 25, 100);
 				else
 					movement('a', 25, 100);
