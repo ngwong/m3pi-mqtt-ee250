@@ -56,7 +56,7 @@ static DHT sensor(p18,SEN11301P); // Use the SEN11301P sensor
 
 static const char *topic = "m3pi-mqtt-ee250/temp-thread";
 
-void TempThread(void *args) 
+void tempThread(void *args) 
 {
 	MQTT::Client<MQTTNetwork, Countdown> *client = (MQTT::Client<MQTTNetwork, Countdown> *)args;
 	MailMsg *msg;
