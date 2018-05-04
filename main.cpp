@@ -138,6 +138,31 @@ void movement(char command, char speed, int delta_t)
 		Thread::wait(delta_t);
 		m3pi.stop();
 	}
+	else if (command == 'q')	{
+		m3pi.backward(speed);
+		Thread::wait(delta_t/2);
+		m3pi.left(speed);
+		Thread::wait(delta_t/2);
+		m3pi.stop();
+	} else if (command == 'e')	{
+		m3pi.backward(speed);
+		Thread::wait(delta_t/2);
+		m3pi.right(speed);
+		Thread::wait(delta_t/2);
+		m3pi.stop();
+	} else if (command == 'c')	{
+		m3pi.forward(speed);
+		Thread::wait(delta_t/2);
+		m3pi.right(speed);
+		Thread::wait(delta_t/2);
+		m3pi.stop();
+	} else if (command == 'z')	{
+		m3pi.forward(speed);
+		Thread::wait(delta_t/2);
+		m3pi.left(speed);
+		Thread::wait(delta_t/2);
+		m3pi.stop();
+	} 
 }
 
 /* Callback for any received MQTT messages */
@@ -327,29 +352,33 @@ int main()
 				movement('a', 25, 100);
 				break;
 			case MOVE_FORWARD_LEFT:
-				movement('w', 25, 100);
-				movement('a', 25, 100);
+				// movement('w', 25, 100);
+				// movement('a', 25, 100);
+				movement('q', 25, 100);
 				break;
 			case MOVE_FORWARD:
 				movement('w', 25, 100);
 				break;
 			case MOVE_FORWARD_RIGHT:
-				movement('w', 25, 100);
-				movement('d', 25, 100);
+				// movement('w', 25, 100);
+				// movement('d', 25, 100);
+				movement('e', 25, 100);
 				break;
 			case MOVE_RIGHT:
 				movement('d', 25, 100);
 				break;
 			case MOVE_BACK_RIGHT:
-				movement('s', 25, 100);
-				movement('d', 25, 100);
+				// movement('s', 25, 100);
+				// movement('d', 25, 100);
+				movement('c', 25, 100);
 				break;
 			case MOVE_BACK:
 				movement('s', 25, 100);
 				break;
 			case MOVE_BACK_LEFT:
-				movement('s', 25, 100);
-				movement('a', 25, 100);
+				// movement('s', 25, 100);
+				// movement('a', 25, 100);
+				movement('z', 25, 100);
 				break;
 			default:
 				loc_dir = 'n';
